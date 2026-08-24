@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Our Big Sea Adventure · 3–7 Sep 2026</title>
+<style>
+  :root{
+    --ocean:#0C7BC4; --ocean-deep:#0A5A94; --ink:#0E2C48; --muted:#5C7A93;
+    --sun:#FFC22E; --coral:#FF7A5A; --teal:#12C2AC; --pink:#FF8FB1; --grape:#8B7BE8;
+    --card:#FFFFFF; --line:#D7E8F4; --paper1:#EAF7FF; --paper2:#FFF6E6;
+    --disp:'Trebuchet MS','Segoe UI',system-ui,-apple-system,sans-serif;
+    --body:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{
+    font-family:var(--body); color:var(--ink); font-size:17px; line-height:1.55;
+    background:linear-gradient(180deg,var(--paper1) 0%,#F4FBFF 40%,var(--paper2) 100%);
+    background-attachment:fixed; -webkit-font-smoothing:antialiased;
+    padding-bottom:calc(48px + env(safe-area-inset-bottom));
+    overflow-wrap:break-word; word-break:break-word; overflow-x:clip;
+    -webkit-tap-highlight-color:rgba(12,123,196,.12);
+  }
+  img,svg{max-width:100%;height:auto}
+  .wrap{max-width:520px;margin:0 auto;padding:0 15px}
+  h1,h2,h3,h4{font-family:var(--disp);line-height:1.15}
+
+  /* ---------------- HERO ---------------- */
+  header{
+    position:relative;overflow:hidden;color:#fff;text-align:center;
+    padding:calc(30px + env(safe-area-inset-top)) 0 30px;
+    background:linear-gradient(165deg,#17A9E0 0%,var(--ocean) 55%,var(--ocean-deep) 100%);
+    border-bottom-left-radius:26px;border-bottom-right-radius:26px;
+    box-shadow:0 10px 26px rgba(10,90,148,.28);
+  }
+  .sky{position:absolute;inset:0;pointer-events:none;opacity:.9}
+  .sun-badge{position:absolute;top:16px;right:20px;font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));
+    animation:spin 22s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .cloud{position:absolute;font-size:26px;opacity:.75;animation:drift 18s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(14px)}}
+  .hero-in{position:relative;padding:0 16px}
+  .kicker{display:inline-block;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.5);
+    border-radius:999px;padding:5px 14px;font-family:var(--disp);font-weight:bold;font-size:12.5px;
+    letter-spacing:.06em;text-transform:uppercase}
+  h1{font-size:clamp(30px,8.5vw,40px);font-weight:bold;margin:14px 0 6px;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .ship{font-size:46px;line-height:1;margin-bottom:4px;animation:bob 3.5s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+  .voyage-dates{font-family:var(--disp);font-weight:bold;font-size:15px;margin-top:4px;
+    background:rgba(0,0,0,.12);display:inline-block;padding:6px 14px;border-radius:12px}
+
+  /* countdown */
+  .count{display:flex;gap:9px;justify-content:center;margin-top:16px}
+  .count .box{background:#fff;color:var(--ocean-deep);border-radius:16px;padding:10px 4px;min-width:70px;
+    box-shadow:0 6px 14px rgba(0,0,0,.18)}
+  .count .n{font-family:var(--disp);font-weight:bold;font-size:26px;line-height:1}
+  .count .l{font-size:10px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+  /* readiness meter */
+  .meter{margin:18px 14px 2px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);
+    border-radius:18px;padding:12px 14px}
+  .meter .top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--disp);font-weight:bold}
+  .meter .top .pct{font-size:20px}
+  .bar{height:16px;background:rgba(0,0,0,.18);border-radius:999px;overflow:hidden;margin:8px 0 6px}
+  .bar span{display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,var(--sun),var(--coral),var(--teal));
+    transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .meter .msg{font-size:13px;font-weight:bold;text-align:center}
+
+  /* ---------------- STICKY NAV ---------------- */
+  nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--line);box-shadow:0 3px 10px rgba(10,90,148,.06)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;max-width:520px;margin:0 auto;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chips a{flex:0 0 auto;font-family:var(--disp);font-weight:bold;font-size:13.5px;color:var(--ocean-deep);
+    text-decoration:none;padding:9px 14px;background:var(--paper1);border:2px solid var(--line);
+    border-radius:999px;white-space:nowrap;min-height:40px;display:flex;align-items:center}
+  .chips a:active{transform:scale(.96)}
+  .chips a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+  /* ---------------- SECTIONS ---------------- */
+  section{padding:26px 0 2px}
+  .head{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+  .emoji-badge{flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+    font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,.10)}
+  .b-sun{background:#FFF1CC} .b-teal{background:#CFF6F0} .b-coral{background:#FFE0D7}
+  .b-ocean{background:#D6ECFB} .b-pink{background:#FFE1EA} .b-grape{background:#E6E1FB}
+  h2{font-size:23px;font-weight:bold}
+  .sub{color:var(--muted);font-size:14px;margin:2px 0 14px;padding-left:2px}
+
+  .card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;
+    box-shadow:0 6px 16px rgba(10,90,148,.06)}
+  .card.alert{border-color:var(--coral);background:linear-gradient(180deg,#FFF3EF,#FFFDFC)}
+  .card.money{border-color:var(--sun);background:linear-gradient(180deg,#FFFBEF,#FFFFFF)}
+
+  /* pills */
+  .pill{display:inline-block;font-family:var(--disp);font-weight:bold;font-size:11px;letter-spacing:.03em;
+    text-transform:uppercase;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:4px}
+  .pill.kid{background:#CFF6F0;color:#0A7D71} .pill.adult{background:#D6ECFB;color:#0A5A94}
+  .pill.all{background:#FFF1CC;color:#9A7400} .pill.paid{background:#FFE0D7;color:#C24A2C}
+  .pill.free{background:#E4F7E6;color:#2E7D42} .pill.now{background:var(--coral);color:#fff}
+  .pill.soon{background:var(--sun);color:#7A5600}
+
+  /* KID TOP cards */
+  .toplist{display:flex;flex-direction:column;gap:12px}
+  .top-card{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:2px solid var(--line);
+    border-radius:18px;padding:14px;box-shadow:0 5px 13px rgba(10,90,148,.06);position:relative;overflow:hidden}
+  .top-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px}
+  .tc-teal::before{background:var(--teal)} .tc-coral::before{background:var(--coral)}
+  .tc-sun::before{background:var(--sun)} .tc-ocean::before{background:var(--ocean)} .tc-pink::before{background:var(--pink)}
+  .top-ico{flex:0 0 auto;font-size:32px;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;
+    background:var(--paper1)}
+  .top-body h4{font-size:17px;font-weight:bold;margin-bottom:2px}
+  .top-body p{font-size:14px;color:var(--muted);line-height:1.45}
+  .rank-num{position:absolute;right:12px;top:10px;font-family:var(--disp);font-weight:bold;font-size:15px;
+    color:var(--line)}
+
+  /* VOYAGE TRAIL */
+  .trail{position:relative;margin-left:6px}
+  .trail::before{content:"";position:absolute;left:22px;top:8px;bottom:20px;width:4px;border-radius:4px;
+    background:repeating-linear-gradient(180deg,var(--ocean) 0 10px,transparent 10px 20px)}
+  details.day{position:relative;margin-bottom:12px;border:none;background:none}
+  details.day>summary{list-style:none;cursor:pointer;display:flex;gap:14px;align-items:center;
+    padding:4px 0;outline:none}
+  details.day>summary::-webkit-details-marker{display:none}
+  .node{flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:24px;
+    background:#fff;border:4px solid var(--ocean);z-index:1;box-shadow:0 4px 10px rgba(10,90,148,.15)}
+  .day-head{flex:1;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:11px 14px;
+    box-shadow:0 4px 12px rgba(10,90,148,.06)}
+  .day-head .dlabel{font-family:var(--disp);font-weight:bold;font-size:12px;color:var(--coral);
+    text-transform:uppercase;letter-spacing:.05em}
+  .day-head .dtitle{font-family:var(--disp);font-weight:bold;font-size:16px}
+  .day-head .dtitle .caret{float:right;color:var(--ocean);font-size:14px}
+  details.day[open] .caret{transform:rotate(90deg);display:inline-block}
+  .day-detail{margin:8px 0 4px 62px}
+  .slot{display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .slot:last-child{border-bottom:none}
+  .slot .time{flex:0 0 54px;font-family:var(--disp);font-weight:bold;font-size:11px;color:var(--ocean-deep);
+    text-transform:uppercase;padding-top:2px}
+  .slot .what{flex:1;font-size:14px}
+  .slot .what b{font-weight:bold}
+  .slot.star .what b::after{content:" ⭐"}
+  .slot .what small{display:block;color:var(--muted);font-size:12.5px;margin-top:1px}
+
+  /* CHECKLISTS (gamified) */
+  ul.ck{list-style:none}
+  ul.ck li{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:2px dashed var(--line)}
+  ul.ck li:last-child{border-bottom:none}
+  ul.ck input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:30px;height:30px;margin-top:1px;
+    border:3px solid var(--teal);border-radius:9px;background:#fff;cursor:pointer;position:relative;
+    transition:transform .12s}
+  ul.ck input:active{transform:scale(.9)}
+  ul.ck input:checked{background:var(--teal);border-color:var(--teal)}
+  ul.ck input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;
+    color:#fff;font-weight:900;font-size:18px}
+  ul.ck input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+  ul.ck label{cursor:pointer;flex:1}
+  ul.ck .lead{font-family:var(--disp);font-weight:bold;font-size:15px}
+  ul.ck input:checked+label .lead{text-decoration:line-through;opacity:.5}
+  ul.ck .when{display:inline-block;font-family:var(--disp);font-weight:bold;font-size:11px;
+    background:#FFF1CC;color:#9A7400;padding:2px 8px;border-radius:999px;margin-top:4px}
+  ul.ck .when.hot{background:var(--coral);color:#fff}
+  ul.ck .why{display:block;color:var(--muted);font-size:13px;margin-top:4px;line-height:1.45}
+  .rank-chip{display:inline-grid;place-items:center;flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+    background:var(--ocean);color:#fff;font-family:var(--disp);font-weight:bold;font-size:12px;margin-top:2px}
+
+  /* ranked accordions */
+  details.acc{border:2px solid var(--line);border-radius:18px;background:var(--card);margin-bottom:12px;overflow:hidden;
+    box-shadow:0 5px 13px rgba(10,90,148,.06)}
+  details.acc>summary{list-style:none;cursor:pointer;padding:15px 16px;font-family:var(--disp);font-weight:bold;
+    font-size:17px;display:flex;justify-content:space-between;align-items:center}
+  details.acc>summary::-webkit-details-marker{display:none}
+  details.acc>summary .car{color:var(--ocean);transition:transform .2s}
+  details.acc[open]>summary .car{transform:rotate(90deg)}
+  .acc-in{padding:0 16px 12px}
+  ol.ranked{list-style:none;counter-reset:r}
+  ol.ranked li{counter-increment:r;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+  ol.ranked li:last-child{border-bottom:none}
+  ol.ranked li .rk{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;
+    background:var(--paper1);color:var(--ocean-deep);font-family:var(--disp);font-weight:bold;font-size:12px;
+    margin-right:9px;vertical-align:middle}
+  ol.ranked li b{font-family:var(--disp)}
+  ol.ranked .d{display:block;color:var(--muted);font-size:12.5px;margin:2px 0 0 33px}
+
+  /* rules / money bullet list */
+  .rules-list{list-style:none}
+  .rules-list li{display:flex;gap:11px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.5}
+  .rules-list li:last-child{border-bottom:none}
+  .rules-list .ico{flex:0 0 auto;font-size:19px}
+  .rules-list b{font-family:var(--disp)}
+
+  footer{margin-top:30px;text-align:center;color:var(--muted);font-size:12.5px;padding:22px 15px 10px}
+  footer .anchor{font-size:26px;display:block;margin-bottom:6px}
+  footer .fam{font-family:var(--disp);font-weight:bold;color:var(--ocean-deep);margin-top:8px}
+
+  a.jump{color:var(--ocean)}
+
+  .cat{font-family:var(--disp);font-weight:bold;font-size:12.5px;color:var(--ocean-deep);
+    text-transform:uppercase;letter-spacing:.05em;margin:14px 0 2px;display:flex;align-items:center;gap:8px}
+  .cat:first-child{margin-top:2px}
+  .cat .e{font-size:17px}
+
+  /* ---- narrow phones ---- */
+  @media (max-width:360px){
+    body{font-size:16px}
+    .wrap{padding:0 12px}
+    h1{font-size:27px}
+    .ship{font-size:38px}
+    .count{gap:7px}
+    .count .box{min-width:60px;padding:9px 3px}
+    .count .n{font-size:22px}
+    .meter{margin-left:10px;margin-right:10px}
+    .emoji-badge{width:42px;height:42px;font-size:22px}
+    h2{font-size:21px}
+    .top-ico{width:46px;height:46px;font-size:28px}
+    .node{width:42px;height:42px;font-size:21px;border-width:3px}
+    .trail::before{left:19px}
+    .day-detail{margin-left:44px}
+    .slot .time{flex-basis:46px}
+    ul.ck{padding-left:0}
+    ul.ck input{width:28px;height:28px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="sky" aria-hidden="true">
+    <span class="sun-badge">☀️</span>
+    <span class="cloud" style="top:20px;left:22px">☁️</span>
+    <span class="cloud" style="top:60px;left:70%;animation-delay:2s">☁️</span>
+  </div>
+  <div class="hero-in">
+    <span class="kicker">🎟️ Family Voyage Plan</span>
+    <div class="ship" style="margin-top:12px">🚢</div>
+    <h1>Our Big Sea Adventure!</h1>
+    <div class="voyage-dates">THU 3 SEP → MON 7 SEP 2026 · 4 nights</div>
+
+    <div class="count" aria-label="Countdown to sail day">
+      <div class="box"><div class="n" id="cd">–</div><div class="l">Sleeps</div></div>
+      <div class="box"><div class="n" id="ch">–</div><div class="l">Hours</div></div>
+      <div class="box"><div class="n" id="cm">–</div><div class="l">Mins</div></div>
+    </div>
+
+    <div class="meter">
+      <div class="top"><span>🧭 Adventure Readiness</span><span class="pct" id="pct">0%</span></div>
+      <div class="bar"><span id="barfill"></span></div>
+      <div class="msg" id="rmsg">Tick things off below to fill the meter! 🧳</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ NAV ============ -->
+<nav aria-label="Jump to section">
+  <div class="chips">
+    <a href="#top">⭐ Top Fun</a>
+    <a href="#trail">🗺️ Our Days</a>
+    <a href="#pack">✅ Before We Sail</a>
+    <a href="#packing">🧳 Packing</a>
+    <a href="#banned">🚫 Banned</a>
+    <a href="#sprint">🚀 Day 1</a>
+    <a href="#money">💰 Extra Cost</a>
+    <a href="#ranks">📋 Full List</a>
+    <a href="#rules">⚠️ Secrets</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ URGENT PARENT NOTE ============ -->
+<section id="alertsec" style="padding-top:20px">
+  <div class="card alert">
+    <div style="font-family:var(--disp);font-weight:bold;font-size:16px;margin-bottom:6px">⏰ Final stretch — sailing in days! (grown-ups)</div>
+    <p style="font-size:14.5px;line-height:1.5">
+      <b>Not checked in yet? → </b>Online check-in opened 4 Aug. Do it <b>today</b> to grab the best remaining arrival slot and save your boarding QR.<br><br>
+      <b>By Mon 31 Aug → </b>last day to book or change activities online (3-day cutoff). Spa, specialty dining, makeovers, tea, Royal Gathering — final call, then it's onboard-only.<br><br>
+      <b>Mon 31 Aug onward → </b>SG Arrival Card window opens (submit within 3 days of entry) — do everyone's SGAC.<br><br>
+      <b>Tue 2 Sep → </b>bags packed, carry-on ready (swimwear + coaster shoes + meds), transport confirmed — or drive down and overnight in Singapore.
+    </p>
+  </div>
+</section>
+
+<!-- ============ KID TOP FUN ============ -->
+<section id="top">
+  <div class="head">
+    <div class="emoji-badge b-sun">⭐</div>
+    <div><h2>Top Fun On Board</h2></div>
+  </div>
+  <p class="sub">The most exciting things — ranked! Grown-up bits are marked too.</p>
+
+  <div class="toplist">
+    <div class="top-card tc-sun"><span class="rank-num">01</span>
+      <div class="top-ico">🎆</div>
+      <div class="top-body"><h4>Fireworks At Sea! <span class="pill all">Everyone</span></h4>
+        <p>The Lion King: Celebration in the Sky — the <b>only cruise ship in the world</b> with real fireworks over the ocean. Happens one night — find out which night on Day 1 and grab a good deck spot early.</p></div></div>
+
+    <div class="top-card tc-coral"><span class="rank-num">02</span>
+      <div class="top-ico">🎢</div>
+      <div class="top-body"><h4>Ironcycle Roller Coaster <span class="pill all">Everyone</span></h4>
+        <p>The <b>longest roller coaster at sea</b> — you steer your own speed on lap two! Must be <b>120–195 cm</b> tall. Good news: it's open and running (measure at home so there are no surprises). Closed-toe shoes needed.</p></div></div>
+
+    <div class="top-card tc-teal"><span class="rank-num">03</span>
+      <div class="top-ico">🦸</div>
+      <div class="top-body"><h4>Kids' Club — Oceaneer Club <span class="pill kid">Ages 3–10</span> <span class="pill free">Free</span></h4>
+        <p>The secret best thing! Design your own coaster and ride it on a screen, train as a super-hero in the WEB Workshop, and zoom down a giant Slinky-dog slide. Open ~9am to midnight.</p></div></div>
+
+    <div class="top-card tc-teal"><span class="rank-num">04</span>
+      <div class="top-ico">💦</div>
+      <div class="top-body"><h4>Water Slides + Splash Zone <span class="pill kid">Kids</span></h4>
+        <p>Two twisty slides in Toy Story Place (the <b>red one is faster!</b>) plus a whole splashy playground. Sunscreen on before you go up.</p></div></div>
+
+    <div class="top-card tc-coral"><span class="rank-num">05</span>
+      <div class="top-ico">🏎️</div>
+      <div class="top-body"><h4>Pym Racers &amp; Groot Galaxy Spin <span class="pill kid">Kids</span></h4>
+        <p>Two more Marvel Landing rides — drive tiny shrink-tech cars, then spin up high with Groot's bass-boosted beats.</p></div></div>
+
+    <div class="top-card tc-ocean"><span class="rank-num">06</span>
+      <div class="top-ico">👑</div>
+      <div class="top-body"><h4>Meet Characters + Royal Gathering <span class="pill all">Everyone</span></h4>
+        <p>Characters roam the whole ship (check the app map!). The Royal Gathering meets lots of Princesses in one go — free, but book it (opens 4 Aug).</p></div></div>
+
+    <div class="top-card tc-ocean"><span class="rank-num">07</span>
+      <div class="top-ico">🎭</div>
+      <div class="top-body"><h4>Big Broadway Shows <span class="pill all">Everyone</span></h4>
+        <p><b>Moana: Call of the Sea</b>, the brand-new <b>Remember</b>, and <b>Avengers Assemble!</b> with a giant screen. Book seats on Day 1 — they fill fast.</p></div></div>
+
+    <div class="top-card tc-pink"><span class="rank-num">08</span>
+      <div class="top-ico">🌈</div>
+      <div class="top-body"><h4>Glowing Reef + Bubble Tea <span class="pill all">Everyone</span></h4>
+        <p>Discovery Reef lights up like a <b>glow-in-the-dark ocean</b> at night — and it's the first Disney ship with bubble tea! 🧋</p></div></div>
+  </div>
+</section>
+
+<!-- ============ VOYAGE TRAIL ============ -->
+<section id="trail">
+  <div class="head">
+    <div class="emoji-badge b-ocean">🗺️</div>
+    <div><h2>Our Voyage Trail</h2></div>
+  </div>
+  <p class="sub">Tap each day to open the full plan. ⭐ = the big kid highlight.</p>
+
+  <div class="trail">
+    <details class="day" open>
+      <summary>
+        <span class="node">⚓</span>
+        <span class="day-head"><span class="dlabel">Day 1 · Thu 3 Sep</span>
+          <span class="dtitle">All Aboard! Board &amp; Ride <span class="caret">▸</span></span></span>
+      </summary>
+      <div class="day-detail">
+        <div class="slot"><span class="time">Morn</span><span class="what"><b>Arrive at Marina Bay Cruise Centre</b><small>Your booked arrival time. Join ship WiFi &amp; start the Day-1 sprint while queueing.</small></span></div>
+        <div class="slot star"><span class="time">Noon</span><span class="what"><b>Board the ship</b><small>Cabin might not be ready — don't wait. Grab lunch, then head up to Deck 19.</small></span></div>
+        <div class="slot star"><span class="time">Aft</span><span class="what"><b>Marvel Landing rides</b><small>Ironcycle, Pym Racers, Groot Spin — shortest queues of the whole trip right now!</small></span></div>
+        <div class="slot"><span class="time">Late</span><span class="what"><b>Oceaneer Club open house</b><small>Sign in, get the wristband, pick a favourite zone together.</small></span></div>
+        <div class="slot star"><span class="time">Sail</span><span class="what"><b>Sail-away deck party</b><small>Watch Singapore's skyline shrink — best free photo of the trip.</small></span></div>
+        <div class="slot"><span class="time">Eve</span><span class="what"><b>First rotational dinner → dance party</b><small>Finish with Mickey's Color Spin Dance Party if energy's left.</small></span></div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary>
+        <span class="node">💦</span>
+        <span class="day-head"><span class="dlabel">Day 2 · Fri 4 Sep</span>
+          <span class="dtitle">Splash &amp; Shows <span class="caret">▸</span></span></span>
+      </summary>
+      <div class="day-detail">
+        <div class="slot star"><span class="time">Morn</span><span class="what"><b>Water slides before the crowds</b><small>Toy Story Place — red slide = fast! Sunscreen first.</small></span></div>
+        <div class="slot"><span class="time">Mid</span><span class="what"><b>Split up</b><small>Kids → club session. Grown-ups → spa treatment or a quiet drink.</small></span></div>
+        <div class="slot star"><span class="time">Aft</span><span class="what"><b>Theatre show</b><small><i>Remember</i> or <i>Disney Seas the Adventure</i> — arrive 20 min early.</small></span></div>
+        <div class="slot"><span class="time">Eve</span><span class="what"><b>Dinner #2</b><small>If it's Animator's night, everyone sketches — your drawing joins the show!</small></span></div>
+        <div class="slot"><span class="time">Night</span><span class="what"><b>Grown-ups' evening</b><small>Kids' club runs to ~midnight → date-night dinner or a jazz lounge.</small></span></div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary>
+        <span class="node">🎆</span>
+        <span class="day-head"><span class="dlabel">Day 3 · Sat 5 Sep</span>
+          <span class="dtitle">Show-Stopper Day <span class="caret">▸</span></span></span>
+      </summary>
+      <div class="day-detail">
+        <div class="slot"><span class="time">Morn</span><span class="what"><b>Ride again or sleep in</b><small>Second coaster run, or the gentle Wayfinder Bay pool.</small></span></div>
+        <div class="slot star"><span class="time">Mid</span><span class="what"><b>Royal Gathering / character hunt</b><small>Princess meet-up if booked; otherwise chase meets on the app map.</small></span></div>
+        <div class="slot star"><span class="time">Aft</span><span class="what"><b>Moana: Call of the Sea + San Fransokyo Street</b><small>The prettiest show, then games &amp; the cinema.</small></span></div>
+        <div class="slot"><span class="time">Eve</span><span class="what"><b>Dinner #3 → Avengers Assemble!</b><small>Big stunts &amp; effects — sit centre if you can.</small></span></div>
+        <div class="slot star"><span class="time">Night</span><span class="what"><b>FIREWORKS AT SEA 🎆</b><small>Check the exact night in the app on Day 1. Claim a deck rail 30–40 min early.</small></span></div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary>
+        <span class="node">⛵</span>
+        <span class="day-head"><span class="dlabel">Day 4 · Sun 6 Sep</span>
+          <span class="dtitle">Last Full Day <span class="caret">▸</span></span></span>
+      </summary>
+      <div class="day-detail">
+        <div class="slot star"><span class="time">Morn</span><span class="what"><b>The one thing we missed</b><small>Check the app — slots free up daily. Last coaster laps, Baymax show, Duffy show.</small></span></div>
+        <div class="slot"><span class="time">Mid</span><span class="what"><b>Last kids'-club session</b><small>While grown-ups do a final spa hour or start packing.</small></span></div>
+        <div class="slot star"><span class="time">Aft</span><span class="what"><b>Captain Jack Sparrow pirate show</b><small>Outdoor Garden Stage → storybook-castle photos.</small></span></div>
+        <div class="slot"><span class="time">Eve</span><span class="what"><b>Final dinner → last shopping</b><small>Shops shut tomorrow morning — finish gift runs tonight.</small></span></div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary>
+        <span class="node">🏠</span>
+        <span class="day-head"><span class="dlabel">Day 5 · Mon 7 Sep</span>
+          <span class="dtitle">Home Time <span class="caret">▸</span></span></span>
+      </summary>
+      <div class="day-detail">
+        <div class="slot"><span class="time">Morn</span><span class="what"><b>Breakfast → off the ship → immigration</b><small>Shops closed. Monday causeway traffic is heavy — allow buffer back to KL.</small></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ BEFORE WE SAIL (pre-book) ============ -->
+<section id="pack">
+  <div class="head">
+    <div class="emoji-badge b-teal">✅</div>
+    <div><h2>Before We Sail</h2></div>
+  </div>
+  <p class="sub">Ranked by priority. <b>Online booking closes Mon 31 Aug</b> (3 days before sailing) — after that it's onboard-only. Ticks fill the meter (they don't save — screenshot when done!).</p>
+
+  <div class="card">
+    <ul class="ck">
+      <li><span class="rank-chip">1</span><input type="checkbox" id="p1"><label for="p1">
+        <span class="lead">Online check-in → arrival time + boarding QR <span class="pill free">Free</span></span>
+        <span class="when hot">OPENED 4 AUG — DO TODAY IF NOT DONE</span>
+        <span class="why">Earlier arrival slot = board first = first pick of shows and an empty coaster on Day 1. Later slots still beat no check-in.</span></label></li>
+      <li><span class="rank-chip">2</span><input type="checkbox" id="p2"><label for="p2">
+        <span class="lead">Spa treatments <span class="pill adult">Adults</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPEN NOW</span>
+        <span class="why">Few rooms; the best sea-day-morning slots go first on a 6,700-guest ship.</span></label></li>
+      <li><span class="rank-chip">3</span><input type="checkbox" id="p3"><label for="p3">
+        <span class="lead">Drink tastings / mixology <span class="pill adult">Adults</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPEN NOW</span>
+        <span class="why">Usually the very first thing to sell out fleet-wide.</span></label></li>
+      <li><span class="rank-chip">4</span><input type="checkbox" id="p4"><label for="p4">
+        <span class="lead">Palo Trattoria / Mike &amp; Sulley's Flavors of Asia <span class="pill adult">Adults</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPEN NOW</span>
+        <span class="why">The two fancy restaurants — perfect date night while the kids' club runs. Tables are scarce.</span></label></li>
+      <li><span class="rank-chip">5</span><input type="checkbox" id="p5"><label for="p5">
+        <span class="lead">Makeovers: Bibbidi Bobbidi Boutique / Marvel Style Studio <span class="pill kid">Kids</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPEN NOW · BBB ages 3–12</span>
+        <span class="why">Princess or super-hero makeover. Book it for a show or fireworks day so the costume gets used lots.</span></label></li>
+      <li><span class="rank-chip">6</span><input type="checkbox" id="p6"><label for="p6">
+        <span class="lead">Royal Gathering (many Princesses!) <span class="pill kid">Kids</span> <span class="pill free">Free</span></span>
+        <span class="when hot">OPENED 4 AUG — BOOK BY 31 AUG</span>
+        <span class="why">Free but tiny capacity. If slots are gone online, some are held back for onboard booking — make it sprint step 4 on Day 1.</span></label></li>
+      <li><span class="rank-chip">7</span><input type="checkbox" id="p7"><label for="p7">
+        <span class="lead">Royal Society for Friendship &amp; Tea <span class="pill kid">Kids</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPEN NOW</span>
+        <span class="why">Princess tea with keepsakes. Lovely for a big fan — skip if not, plenty of free character time instead.</span></label></li>
+      <li><span class="rank-chip">8</span><input type="checkbox" id="p8"><label for="p8">
+        <span class="lead">Photo package <span class="pill all">Everyone</span> <span class="pill paid">Paid</span></span>
+        <span class="when">OPTIONAL</span>
+        <span class="why">Worth it only if you'll do lots of character photos. Or skip and buy singles onboard.</span></label></li>
+    </ul>
+  </div>
+
+  <div class="head" style="margin-top:6px">
+    <div class="emoji-badge b-coral">📝</div>
+    <div><h2 style="font-size:20px">Trip Prep</h2></div>
+  </div>
+  <div class="card">
+    <ul class="ck">
+      <li><input type="checkbox" id="t1"><label for="t1"><span class="lead">Passports valid 6+ months past 7 Sep</span><span class="why">Check every traveller now.</span></label></li>
+      <li><input type="checkbox" id="t2"><label for="t2"><span class="lead">Singapore Arrival Card (SGAC)</span><span class="why">Submit online within 3 days before entering Singapore.</span></label></li>
+      <li><input type="checkbox" id="t3"><label for="t3"><span class="lead">KL → Marina Bay transport + traffic buffer</span><span class="why">Drive / coach / flight. Consider staying in Singapore the night of 2 Sep.</span></label></li>
+      <li><input type="checkbox" id="t4"><label for="t4"><span class="lead">Travel insurance for the dates</span></label></li>
+      <li><input type="checkbox" id="t5"><label for="t5"><span class="lead">Download the DCL Navigator app on every phone</span><span class="why">Free on ship WiFi — it runs everything onboard.</span></label></li>
+      <li><input type="checkbox" id="t6"><label for="t6"><span class="lead">Link a card at check-in (billed in USD)</span><span class="why">Use a low-forex card — it backs your Key to the World card.</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PACKING LIST ============ -->
+<section id="packing">
+  <div class="head">
+    <div class="emoji-badge b-coral">🧳</div>
+    <div><h2>Packing List</h2></div>
+  </div>
+  <p class="sub">Everything for 4 nights at sea. ⚠️ = an easy-to-forget, ship-specific item.</p>
+
+  <div class="card">
+    <div class="cat"><span class="e">📄</span> Documents &amp; money</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk1"><label for="pk1"><span class="lead">Passports (6+ months valid) + a phone photo of each</span></label></li>
+      <li><input type="checkbox" id="pk2"><label for="pk2"><span class="lead">Boarding QR from online check-in (saved on your phone)</span></label></li>
+      <li><input type="checkbox" id="pk3"><label for="pk3"><span class="lead">Low-forex card + some cash in SGD &amp; USD</span><span class="why">Onboard bills are USD; cash is handy for extra tips.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">⚠️</span> Easy to forget (ship-specific!)</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk4"><label for="pk4"><span class="lead">Closed-toe shoes with a heel strap</span><span class="why">Required for the Ironcycle coaster — for the child too, not just sandals!</span></label></li>
+      <li><input type="checkbox" id="pk5"><label for="pk5"><span class="lead">Refillable water bottles (one each)</span><span class="why">No bottled water in cabins; free refill stations on Decks 10 &amp; 17.</span></label></li>
+      <li><input type="checkbox" id="pk6"><label for="pk6"><span class="lead">Bedroom slippers</span><span class="why">Not provided in the stateroom.</span></label></li>
+      <li><input type="checkbox" id="pk7"><label for="pk7"><span class="lead">Light jacket / cardigan each</span><span class="why">Strong indoor aircon + breezy top deck at night.</span></label></li>
+      <li><input type="checkbox" id="pk8"><label for="pk8"><span class="lead">Power plug + US &amp; Euro adapter</span><span class="why">Cabin outlets aren't Malaysian-style; extension cords &amp; surge protectors aren't allowed.</span></label></li>
+      <li><input type="checkbox" id="pk9"><label for="pk9"><span class="lead">Seasick tablets + personal medicines</span><span class="why">Keep meds in your carry-on, labelled.</span></label></li>
+      <li><input type="checkbox" id="pk10"><label for="pk10"><span class="lead">Lanyard for the Key to the World card</span><span class="why">It's your room key + payment card — don't lose it.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">👕</span> Clothes (4 nights)</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk11"><label for="pk11"><span class="lead">Smart-casual dinner &amp; show outfits + one dressier "nice night" set each</span></label></li>
+      <li><input type="checkbox" id="pk12"><label for="pk12"><span class="lead">Everyday tops, shorts, comfy walking clothes, sleepwear, 5+ socks/underwear</span></label></li>
+      <li><input type="checkbox" id="pk13"><label for="pk13"><span class="lead">Swimwear ×2 each</span><span class="why">So one set is always dry for the slides.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">🎭</span> Costumes &amp; dress-up</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk22"><label for="pk22"><span class="lead">Costumes for both kids</span><span class="why">Princess dresses, superhero suits, pirate gear — kids can wear them anywhere and cast members treat them like royalty. Light, non-flammable fabrics; nothing trailing near the slides. (Adults: themed tees, ears &amp; accessories yes — full costumes or face masks no.)</span></label></li>
+      <li><input type="checkbox" id="pk23"><label for="pk23"><span class="lead">Pirate-night kit</span><span class="why">Bandanas, eyepatch, striped shirts — most sailings have a pirate night, and a RM10 kit beats a US$30 onboard one.</span></label></li>
+      <li><input type="checkbox" id="pk24"><label for="pk24"><span class="lead">Matching family tees + Mickey ears / tiaras bought at home</span><span class="why">Great for spotting each other in crowds; onboard versions cost several times more.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">👶</span> For the 3-year-old</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk25"><label for="pk25"><span class="lead">Swim diapers + regular diapers/pull-ups</span><span class="why">Swim diapers are required in the water areas — regular ones aren't allowed in.</span></label></li>
+      <li><input type="checkbox" id="pk26"><label for="pk26"><span class="lead">Lightweight umbrella stroller</span><span class="why">The ship is enormous — little legs give out fast.</span></label></li>
+      <li><input type="checkbox" id="pk27"><label for="pk27"><span class="lead">Comfort item + sippy cup + toddler cutlery &amp; bibs</span><span class="why">The sleep-maker toy travels in carry-on, never checked.</span></label></li>
+      <li><input type="checkbox" id="pk28"><label for="pk28"><span class="lead">Night light + familiar factory-sealed snacks</span><span class="why">Cabins are pitch-dark at night. Snacks must be sealed &amp; non-perishable — homemade or open food isn't allowed aboard. ⚠️ Oceaneer Club needs kids 3+ AND toilet-trained; otherwise it's the paid nursery.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">🧒</span> For the 9-year-old</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk29"><label for="pk29"><span class="lead">Autograph book + a chunky marker</span><span class="why">Character signatures are a classic — fat markers are easier for costumed hands to hold.</span></label></li>
+      <li><input type="checkbox" id="pk30"><label for="pk30"><span class="lead">Own camera or old phone + a waterproof watch</span><span class="why">Keeps them engaged, and the watch means they can meet you at set times.</span></label></li>
+      <li><input type="checkbox" id="pk31"><label for="pk31"><span class="lead">Small backpack, kids' sunglasses, a book</span><span class="why">A bag they carry themselves = fewer things you carry.</span></label></li>
+      <li><input type="checkbox" id="pk32"><label for="pk32"><span class="lead">"Sprinkle" gift stash — small trinkets or badges</span><span class="why">A gift-sharing tradition Adventure guests have embraced — a lovely way for a 9-year-old to make friends onboard.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">🏖️</span> Pool &amp; sun</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk15"><label for="pk15"><span class="lead">Sunscreen, sun hat, sunglasses</span><span class="why">Open decks, tropical sun.</span></label></li>
+      <li><input type="checkbox" id="pk16"><label for="pk16"><span class="lead">Rash guard / swim shirt + a waterproof phone pouch</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">🍷</span> Drinks you can bring (optional)</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk20"><label for="pk20"><span class="lead">Wine or beer for the cabin — adults 18+</span><span class="why">Allowed: one sealed 750ml bottle of wine/sparkling <b>or</b> six 12oz beers <b>per adult</b>, in carry-on (not checked). Stateroom only — can't drink it in lounges or public areas. $20 corkage if you bring wine to a dining room. No ports = no top-ups mid-cruise.</span></label></li>
+      <li><input type="checkbox" id="pk21"><label for="pk21"><span class="lead">Soft drinks / juice / water — yes, allowed!</span><span class="why">Any reasonable amount, factory-sealed, in carry-on only (no glass at the pools). You can skip it though — soft drinks, juice, tea &amp; coffee are free at the deck refill stations and the ship's water tastes good.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">📱</span> Tech &amp; kids</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk17"><label for="pk17"><span class="lead">Phones, chargers, power bank + Navigator app pre-downloaded</span></label></li>
+      <li><input type="checkbox" id="pk18"><label for="pk18"><span class="lead">Headphones + tablets with downloaded games/shows</span><span class="why">Download everything at home — ship internet is paid and slow.</span></label></li>
+    </ul>
+
+    <div class="cat"><span class="e">🎒</span> Embarkation-day carry-on (important!)</div>
+    <ul class="ck">
+      <li><input type="checkbox" id="pk19"><label for="pk19"><span class="lead">Day bag: swimwear, sunscreen, meds, a change of clothes, chargers, closed-toe shoes</span><span class="why">Your cabin isn't ready at boarding and checked bags arrive later — so pack Day-1 essentials to carry on and you can ride straight away.</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROHIBITED ============ -->
+<section id="banned">
+  <div class="head">
+    <div class="emoji-badge b-coral">🚫</div>
+    <div><h2>Leave At Home</h2></div>
+  </div>
+  <p class="sub">Found at bag screening = confiscated, and your luggage gets delayed to late evening. Not worth it.</p>
+
+  <div class="card">
+    <ul class="rules-list">
+      <li><span class="ico">🔥</span><span><b>Anything that heats or plugs in big:</b> irons &amp; steamers (the ship's laundry rooms have free irons), kettles, coffee makers, rice cookers, hot plates, blenders, heating pads, electric blankets, fairy lights, candles &amp; incense.</span></li>
+      <li><span class="ico">🔌</span><span><b>Extension cords, power strips, multi-plugs &amp; surge protectors</b> — all banned. Bring single travel adapters only.</span></li>
+      <li><span class="ico">💨</span><span><b>High-wattage hair dryers (230V+)</b> — a newer Disney rule. Under-230V dryers are fine, and the cabin has one. Curling/flat irons and electric shavers are allowed.</span></li>
+      <li><span class="ico">🛩️</span><span><b>Drones, RC vehicles, hoverboards &amp; e-scooters.</b></span></li>
+      <li><span class="ico">🤳</span><span><b>Selfie sticks/tripods over 18 in (45 cm)</b> must stay in the stateroom — and with no ports on this cruise, that means the whole trip. Bring a short one or none.</span></li>
+      <li><span class="ico">🥡</span><span><b>Homemade, perishable or opened food</b> — only factory-sealed, non-perishable snacks are allowed aboard.</span></li>
+      <li><span class="ico">🍾</span><span><b>Alcohol over the allowance, opened bottles, or any alcohol in checked bags</b> — removed without compensation.</span></li>
+      <li><span class="ico">🔪</span><span><b>Weapons, sharp objects, illegal drugs</b> (including cannabis/CBD products).</span></li>
+    </ul>
+  </div>
+
+  <div class="card alert">
+    <div style="font-family:var(--disp);font-weight:bold;font-size:15px;margin-bottom:6px">🇸🇬 Singapore border — even stricter than the ship</div>
+    <ul class="rules-list">
+      <li><span class="ico">🚭</span><span><b>Vapes &amp; e-cigarettes are illegal in Singapore</b> — bringing one across the border is an offence with heavy fines, and enforcement is aggressive. Leave them at home in Malaysia, not just off the ship.</span></li>
+      <li><span class="ico">⛔</span><span><b>Zero-tolerance drug laws</b> — Singapore's penalties are among the world's harshest. Double-check bags weren't used by anyone else.</span></li>
+      <li><span class="ico">🍬</span><span><b>Chewing gum</b> import is restricted in Singapore — easiest to just not bring any.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DAY-1 SPRINT ============ -->
+<section id="sprint">
+  <div class="head">
+    <div class="emoji-badge b-grape">🚀</div>
+    <div><h2>Day-1 Booking Sprint</h2></div>
+  </div>
+  <p class="sub">Do these in order the moment you reach the terminal — the app unlocks on ship WiFi before you even board.</p>
+
+  <div class="card">
+    <ul class="ck">
+      <li><span class="rank-chip">1</span><input type="checkbox" id="s1"><label for="s1"><span class="lead">Join ship WiFi (DCL-GUEST) → open Navigator</span><span class="why">Enter name, birth date, cabin number. Full schedule appears. No paid internet needed for the app.</span></label></li>
+      <li><span class="rank-chip">2</span><input type="checkbox" id="s2"><label for="s2"><span class="lead">Book theatre shows — Remember first</span><span class="why">Then Moana, then Disney Seas the Adventure. Spread across the 4 nights; seats vanish fastest.</span></label></li>
+      <li><span class="rank-chip">3</span><input type="checkbox" id="s3"><label for="s3"><span class="lead">Find fireworks night → keep it clear</span><span class="why">Runs once — check which night, plan your deck spot.</span></label></li>
+      <li><span class="rank-chip">4</span><input type="checkbox" id="s4"><label for="s4"><span class="lead">Confirm / grab the Royal Gathering</span><span class="why">Some spots are held back for onboard if 4 Aug missed.</span></label></li>
+      <li><span class="rank-chip">5</span><input type="checkbox" id="s5"><label for="s5"><span class="lead">Check dining rotation → adjust if needed</span><span class="why">Shows in the app once connected. Want a change? Dining desk, right after boarding.</span></label></li>
+      <li><span class="rank-chip">6</span><input type="checkbox" id="s6"><label for="s6"><span class="lead">Reserve night-1 shop slot (~10:30pm)</span><span class="why">Shops only open at sea &amp; need a slot on night one. Closed the final morning.</span></label></li>
+      <li><span class="rank-chip">7</span><input type="checkbox" id="s7"><label for="s7"><span class="lead">Sign the child in at Oceaneer Club</span><span class="why">Wristband + tour together so drop-offs are easy later.</span></label></li>
+      <li><span class="rank-chip">8</span><input type="checkbox" id="s8"><label for="s8"><span class="lead">Then GO RIDE 🎢</span><span class="why">Marvel Landing while everyone else is at lunch — shortest queues all cruise.</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MONEY / ADD-ONS ============ -->
+<section id="money">
+  <div class="head">
+    <div class="emoji-badge b-sun">💰</div>
+    <div><h2>Extra Treasures (Add-Ons)</h2></div>
+  </div>
+  <p class="sub">Grown-up stuff. The fare covers ~90% already — meals, shows, fireworks, rides, kids' club, soft drinks. These cost extra (USD; confirm in the app).</p>
+
+  <div class="card">
+    <ol class="ranked">
+      <li><span class="rk">1</span><b>Gratuities — basically not optional</b>
+        <span class="d">From ~US$16 / guest / night (auto-charged at the end) + 18% on paid drinks &amp; dining. Family of 3 × 4 nights ≈ US$190+ before drinks. Budget it early.</span></li>
+      <li><span class="rk">2</span><b>WiFi / internet</b>
+        <span class="d">Navigator app is FREE (schedules, bookings, chat with your group). Real internet ~US$30/device/day, or ~US$49 with streaming; voyage bundles US$88–299 for up to 4 devices. Airplane mode + ship WiFi to dodge roaming. One adult on a bundle is usually enough.</span></li>
+      <li><span class="rk">3</span><b>Palo Trattoria / Mike &amp; Sulley's</b>
+        <span class="d">Fancy adult dining — best "big night" upgrade. Pre-book, pair with a kids'-club evening.</span></li>
+      <li><span class="rk">4</span><b>Spa &amp; thermal-suite passes</b>
+        <span class="d">Treatments + steam/lounger sanctuary. Book sea-day mornings.</span></li>
+      <li><span class="rk">5</span><b>Drink tastings &amp; mixology</b>
+        <span class="d">~1-hour sessions; first to sell out.</span></li>
+      <li><span class="rk">6</span><b>Makeovers (BBB / Marvel Style Studio)</b>
+        <span class="d">Big memory-per-dollar if your child's into it; easy skip if not.</span></li>
+      <li><span class="rk">7</span><b>Alcohol &amp; specialty drinks</b>
+        <span class="d">Cocktails, specialty coffee, bubble tea — all + 18%. Deck soft drinks stay free.</span></li>
+      <li><span class="rk">8</span><b>Karaoke rooms</b>
+        <span class="d">~US$135 per room / 1.5 hrs — fun for a group, easy skip otherwise.</span></li>
+      <li><span class="rk">9</span><b>Photo package</b>
+        <span class="d">Unlimited downloads pre-bookable, or buy singles onboard.</span></li>
+      <li><span class="rk">10</span><b>Princess tea (Royal Society)</b>
+        <span class="d">Small capacity, keepsakes included.</span></li>
+      <li><span class="rk">11</span><b>Merchandise</b>
+        <span class="d">Duffy &amp; Friends, Pandora, local-artist series. Set a cap before night one.</span></li>
+      <li><span class="rk">12</span><b>Nursery</b>
+        <span class="d">Hourly fee, ages 6mo–3yr — your fallback for the 3-year-old if they're not yet toilet-trained (Oceaneer Club requires toilet-trained 3+). Reserve ahead if so.</span></li>
+    </ol>
+  </div>
+
+  <div class="card money">
+    <ul class="rules-list">
+      <li><span class="ico">🧮</span><span><b>Rough extras budget (2 adults + 2 kids, 4 nights):</b> gratuities ~US$256 (charged per guest, kids included) · one WiFi bundle ~US$120 · one Palo dinner ~US$100–150 · one makeover ~US$100–250 · drinks/misc US$100+ → realistically <b>US$700–900</b> on top of the fare, before shopping.</span></li>
+      <li><span class="ico">💳</span><span>The whole bill settles in <b>USD</b> — a low-forex Malaysian card quietly saves a few % across the entire folio.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ FULL RANKINGS ============ -->
+<section id="ranks">
+  <div class="head">
+    <div class="emoji-badge b-ocean">📋</div>
+    <div><h2>Full Activity Rankings</h2></div>
+  </div>
+  <p class="sub">Everything, ranked best→least by guest reviews + uniqueness. Tap to open. 💰 = extra cost.</p>
+
+  <details class="acc" open>
+    <summary>🧒 For Kids — 19 things <span class="car">▸</span></summary>
+    <div class="acc-in"><ol class="ranked">
+      <li><span class="rk">1</span><b>Oceaneer Club (3–10, free)</b><span class="d">Design-a-coaster Ride Studio, Marvel WEB Workshop, Slinky slide, Imagineering Lab. ~9am–midnight.</span></li>
+      <li><span class="rk">2</span><b>Ironcycle Test Run</b><span class="d">If 120–195 cm — measure first! Closed-toe shoes required.</span></li>
+      <li><span class="rk">3</span><b>Water slides + Toy Story splash zone</b><span class="d">Red slide is the fast one.</span></li>
+      <li><span class="rk">4</span><b>Pym Quantum Racers</b><span class="d">Mini shrink-tech cars round a big track.</span></li>
+      <li><span class="rk">5</span><b>Groot Galaxy Spin</b><span class="d">High-soaring, bass-boosted spin.</span></li>
+      <li><span class="rk">6</span><b>Fireworks at sea</b><span class="d">Shared #1 with the grown-ups.</span></li>
+      <li><span class="rk">7</span><b>Character meets + Royal Gathering</b><span class="d">Roaming meets all day; Princess meet-up bookable.</span></li>
+      <li><span class="rk">8</span><b>Baymax Super Exercise Expo</b><span class="d">Dance-along workout show.</span></li>
+      <li><span class="rk">9</span><b>Duffy and The Friend Ship</b><span class="d">First-ever Duffy show at sea.</span></li>
+      <li><span class="rk">10</span><b>Moana / Avengers Assemble!</b><span class="d">Big spectacle, kid-friendly.</span></li>
+      <li><span class="rk">11</span><b>Mickey's Color Spin Dance Party</b><span class="d">High-energy dance-along.</span></li>
+      <li><span class="rk">12</span><b>Wayfinder Bay</b><span class="d">Gentle pool + wading pool for smaller swimmers.</span></li>
+      <li><span class="rk">13</span><b>San Fransokyo Street</b><span class="d">Games, shops, four cinemas.</span></li>
+      <li><span class="rk">14</span><b>D Lounge family karaoke &amp; games</b><span class="d">Easy wind-down.</span></li>
+      <li><span class="rk">15</span><b>Makeovers: BBB / Marvel Style Studio 💰</b><span class="d">Princess (3–12) or hero (all ages).</span></li>
+      <li><span class="rk">16</span><b>Royal Society Tea 💰</b><span class="d">Princess tea, small capacity.</span></li>
+      <li><span class="rk">17</span><b>Mickey &amp; Minnie's Captain Deck</b><span class="d">Play deck, skews toddler–6.</span></li>
+      <li><span class="rk">18</span><b>Nursery 💰</b><span class="d">6mo–3yr only.</span></li>
+      <li><span class="rk">19</span><b>Edge / Vibe / teen spa</b><span class="d">For older kids/teens only.</span></li>
+    </ol></div>
+  </details>
+
+  <details class="acc">
+    <summary>🧑 For Grown-Ups — 17 things <span class="car">▸</span></summary>
+    <div class="acc-in"><ol class="ranked">
+      <li><span class="rk">1</span><b>Fireworks at sea</b><span class="d">Only ship in the world with them; narrated by Shah Rukh Khan.</span></li>
+      <li><span class="rk">2</span><b>Ironcycle Test Run</b><span class="d">Longest coaster at sea; you control lap-two speed.</span></li>
+      <li><span class="rk">3</span><b>Remember — original musical</b><span class="d">Made just for this ship; the strongest show aboard.</span></li>
+      <li><span class="rk">4</span><b>Rotational dining as a show</b><span class="d">Animator's sketch-to-animation; Hollywood live sets; Navigator's captain's table.</span></li>
+      <li><span class="rk">5</span><b>Palo Trattoria &amp; Mike &amp; Sulley's 💰</b><span class="d">Adult specialty dining — pre-bookable.</span></li>
+      <li><span class="rk">6</span><b>Senses Spa + thermal suite 💰</b><span class="d">Adults-only steam rooms &amp; heated loungers.</span></li>
+      <li><span class="rk">7</span><b>Themed bars &amp; lounges 💰</b><span class="d">Snow White adults-only lounge · Princess &amp; the Frog jazz bar · Luca sports bar.</span></li>
+      <li><span class="rk">8</span><b>Moana: Call of the Sea</b><span class="d">The visual stunner.</span></li>
+      <li><span class="rk">9</span><b>Avengers Assemble!</b><span class="d">Live stunts &amp; effects.</span></li>
+      <li><span class="rk">10</span><b>Discovery Reef after dark</b><span class="d">Glowing transformation + bubble tea (first at sea).</span></li>
+      <li><span class="rk">11</span><b>Disney Seas the Adventure</b><span class="d">Songbook of the classics.</span></li>
+      <li><span class="rk">12</span><b>Captain Jack Sparrow &amp; The Siren Queen</b><span class="d">Open-air pirate show.</span></li>
+      <li><span class="rk">13</span><b>Cinemas — San Fransokyo</b><span class="d">Four theatres, new + classic films.</span></li>
+      <li><span class="rk">14</span><b>Gym + Deck 18 jogging loop</b><span class="d">Oceanfront cardio; ~600 m lap.</span></li>
+      <li><span class="rk">15</span><b>Shopping 💰</b><span class="d">Duffy &amp; Friends (first at sea), Pandora, local-artist series.</span></li>
+      <li><span class="rk">16</span><b>D Lounge karaoke &amp; trivia</b><span class="d">Fun family filler.</span></li>
+      <li><span class="rk">17</span><b>Baymax Super Exercise Expo</b><span class="d">Charming, but built for kids.</span></li>
+    </ol></div>
+  </details>
+</section>
+
+<!-- ============ RULES ============ -->
+<section id="rules">
+  <div class="head">
+    <div class="emoji-badge b-coral">⚠️</div>
+    <div><h2>Ship Rules &amp; Secrets</h2></div>
+  </div>
+  <div class="card">
+    <ul class="rules-list">
+      <li><span class="ico">📏</span><span><b>Coaster:</b> 120–195 cm · under-7s ride with someone 14+ · closed-toe shoes with heel strap · no loose items. It's open and running now (the launch-week outage is over), though like any coaster it can pause for weather or maintenance.</span></li>
+      <li><span class="ico">🎭</span><span><b>Shows need app bookings</b> — theatre seats are reserved, not walk-in. Book at the terminal.</span></li>
+      <li><span class="ico">🛍️</span><span><b>Shops:</b> shut in port; open ~10:30pm night one (reserved slot); normal at sea; <b>closed the final morning</b>.</span></li>
+      <li><span class="ico">⌚</span><span><b>No DisneyBand+</b> here — use your key card + app.</span></li>
+      <li><span class="ico">💧</span><span><b>No bottled water in cabins</b> — bring refillables; free soft-drink stations on Decks 10 &amp; 17. Slippers not provided.</span></li>
+      <li><span class="ico">🕛</span><span><b>Booking windows open at midnight US Eastern = 12:00 noon MYT</b> the same day. 4 Aug noon: check-in first, Royal Gathering second.</span></li>
+      <li><span class="ico">🍽️</span><span><b>Dining rotation is assigned</b> — visible in the app at the terminal; changes at the dining desk on Day 1.</span></li>
+      <li><span class="ico">💵</span><span><b>Everything bills in USD</b> to your Key to the World card; gratuities auto-charge at the end.</span></li>
+      <li><span class="ico">👶</span><span><b>Kids' club runs to ~midnight</b> — adults can tour it at open house; the late hours are what free up your evenings.</span></li>
+      <li><span class="ico">🔁</span><span><b>Cancellations reappear daily</b> — recheck the app each morning for spa/tea/tasting slots.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span class="anchor">⚓</span>
+  Built from post-launch guest reviews &amp; Disney Cruise Line policies — rechecked 24 Aug 2026.<br>
+  Shows, times &amp; rules can change — the Navigator app onboard is always the final word.
+  <div class="fam">The Hexa Family · 3–7 September 2026 🚢</div>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var target=new Date('2026-09-03T09:00:00+08:00');
+  var cd=document.getElementById('cd'),ch=document.getElementById('ch'),cm=document.getElementById('cm');
+  function tick(){
+    var diff=target-new Date();
+    if(diff<=0){cd.textContent='⚓';ch.textContent='Bon';cm.textContent='Voyage';return;}
+    var m=Math.floor(diff/60000);
+    cd.textContent=Math.floor(m/1440);
+    ch.textContent=Math.floor((m%1440)/60);
+    cm.textContent=m%60;
+  }
+  tick(); setInterval(tick,30000);
+
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('ul.ck input[type=checkbox]'));
+  var pct=document.getElementById('pct'),fill=document.getElementById('barfill'),msg=document.getElementById('rmsg');
+  function tiers(p){
+    if(p===0)   return 'Tick things off below to fill the meter! 🧳';
+    if(p<34)    return 'Great start, keep going! ⚓';
+    if(p<67)    return 'Halfway to setting sail! 🌊';
+    if(p<100)   return 'Almost ready — nearly there! 🚢';
+    return 'All aboard! Adventure time! 🎉';
+  }
+  function update(){
+    var done=boxes.filter(function(b){return b.checked}).length;
+    var p=boxes.length?Math.round(done/boxes.length*100):0;
+    pct.textContent=p+'%'; fill.style.width=p+'%'; msg.textContent=tiers(p);
+  }
+  boxes.forEach(function(b){b.addEventListener('change',update)});
+  update();
+})();
+</script>
+</body>
+</html>
